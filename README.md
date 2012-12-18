@@ -1,7 +1,5 @@
-mtn
+mtn (Movie thumbnailer)
 ===
-
-Mtn builded the 2012-12-18 with FFMPEG 2012-11-25 and GD 2.0.34
 
 Description
 ===
@@ -13,6 +11,12 @@ mtn works similar to "mplayer -benchmark -nosound -quiet -zoom -vf scale=420:-3,
 mtn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; for details see file gpl-2.0.txt.
 
 For project information, please visit SourceForge project summary page : http://sourceforge.net/projects/moviethumbnail
+
+Version
+===
+
+Mtn builded the 2012-12-18 with FFMPEG 2012-11-25 and GD 2.0.34
+Compiled with : Lavc54.77.100 Lavf54.37.100 Lavu52.9.100 SwS2.1.102 GD2.0.34
 
 Usage
 ===
