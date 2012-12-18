@@ -74,7 +74,16 @@ Gui Project ?
 
 A gui named "Thumbnail me" is available at http://www.thumbnailme.com.
 
+License
+===
+
+GNU General Public License, version 2 (GPLv2)
+
+```plain
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+```
+
 Support & Contact:
 ===
 
-mtn is developed by tuit <>; though most of its magic is done by FFmpeg libraries.
+mtn is developed by tuit (but not maintained); though most of its magic is done by FFmpeg libraries.
