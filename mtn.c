@@ -1511,7 +1511,7 @@ void make_thumbnail(char *file)
     }
     char *suffix = strrchr(tn.out_filename, '.');
 
-#if defined(GB_O_SUFFIX_USE_FULL)
+#if GB_O_SUFFIX_USE_FULL
     strcat(tn.out_filename, gb_o_suffix);
 #else
     if (NULL == suffix) {
@@ -2645,13 +2645,13 @@ int get_double_opt(char c, double *opt, char *optarg, double sign)
 
 void usage()
 {
-    av_log(NULL, AV_LOG_ERROR, "\nmovie thumbnailer (mtn) %s\n", gb_version);
-    //wrong version; compile time not runtime
-    //av_log(NULL, AV_LOG_ERROR, "  with: %s %s %s %s GD%s\n", LIBAVCODEC_IDENT, LIBAVFORMAT_IDENT, LIBAVUTIL_IDENT, LIBSWSCALE_IDENT, GD_VERSION_STRING);
-    av_log(NULL, AV_LOG_ERROR, "mtn saves thumbnails of specified movie files or directories to jpeg files.\n");
-    av_log(NULL, AV_LOG_ERROR, "for directories, it will recursively search inside for movie files.\n");
-    av_log(NULL, AV_LOG_ERROR, "usage:\n  %s [options] file_or_dir1 [file_or_dir2] ... [file_or_dirn]\n", gb_argv0);
-    av_log(NULL, AV_LOG_ERROR, "options: (and default values)\n");
+    av_log(NULL, AV_LOG_ERROR, "\nMovie thumbnailer (mtn) %s\n", gb_version);
+    av_log(NULL, AV_LOG_ERROR, "Compiled with : %s %s %s %s GD%s\n\n", LIBAVCODEC_IDENT, LIBAVFORMAT_IDENT, LIBAVUTIL_IDENT, LIBSWSCALE_IDENT, GD_VERSION_STRING);
+    av_log(NULL, AV_LOG_ERROR, "Description:\n");
+    av_log(NULL, AV_LOG_ERROR, "  Mtn saves thumbnails of specified movie files or directories to jpeg files.\n");
+    av_log(NULL, AV_LOG_ERROR, "  For directories, it will recursively search inside for movie files.\n\n");
+    av_log(NULL, AV_LOG_ERROR, "Usage:\n  %s [options] file_or_dir1 [file_or_dir2] ... [file_or_dirn]\n\n", gb_argv0);
+    av_log(NULL, AV_LOG_ERROR, "Options: (and default values)\n");
     av_log(NULL, AV_LOG_ERROR, "  -a aspect_ratio : override input file's display aspect ratio\n");
     av_log(NULL, AV_LOG_ERROR, "  -b %.2f : skip if %% blank is higher; 0:skip all 1:skip really blank >1:off\n", GB_B_BLANK);
     av_log(NULL, AV_LOG_ERROR, "  -B %.1f : omit this seconds from the beginning\n", GB_B_BEGIN);
@@ -2685,8 +2685,8 @@ void usage()
     av_log(NULL, AV_LOG_ERROR, "  -w %d : width of output image; 0:column * movie width\n", GB_W_WIDTH);
     av_log(NULL, AV_LOG_ERROR, "  -W : dont overwrite existing files, i.e. update mode\n");
     av_log(NULL, AV_LOG_ERROR, "  -z : always use seek mode\n");
-    av_log(NULL, AV_LOG_ERROR, "  -Z : always use non-seek mode -- slower but more accurate timing\n");
-    av_log(NULL, AV_LOG_ERROR, "examples:\n");
+    av_log(NULL, AV_LOG_ERROR, "  -Z : always use non-seek mode -- slower but more accurate timing\n\n");
+    av_log(NULL, AV_LOG_ERROR, "Examples:\n");
     av_log(NULL, AV_LOG_ERROR, "  to save thumbnails to file infile%s with default options:\n    %s infile.avi\n", GB_O_SUFFIX, gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "  to change time step to 65 seconds & change total width to 900:\n    %s -s 65 -w 900 infile.avi\n", gb_argv0);
     // as of version 0.60, -s 0 is not needed
@@ -2695,18 +2695,18 @@ void usage()
     av_log(NULL, AV_LOG_ERROR, "  to get 2 columns in original movie size:\n    %s -c 2 -w 0 infile.avi\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "  to skip uninteresting shots, try:\n    %s -D 6 infile.avi\n", gb_argv0);
 #ifdef WIN32
-    av_log(NULL, AV_LOG_ERROR, "\nin windows, you can run %s from command prompt or drag files/dirs from\n", gb_argv0);
+    av_log(NULL, AV_LOG_ERROR, "\nIn windows, you can run %s from command prompt or drag files/dirs from\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "windows explorer and drop them on %s. you can change the default options\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "by creating a shortcut to %s and add options there (right click the\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "shortcut -> Properties -> Target); then drop files/dirs on the shortcut\n");
     av_log(NULL, AV_LOG_ERROR, "instead.\n");
 #else
-    av_log(NULL, AV_LOG_ERROR, "\nyou'll probably need to change the truetype font path (-f fontfile).\n");
+    av_log(NULL, AV_LOG_ERROR, "\nYou'll probably need to change the truetype font path (-f fontfile).\n");
     av_log(NULL, AV_LOG_ERROR, "the default is set to %s which might not exist in non-windows\n", GB_F_FONTNAME);
     av_log(NULL, AV_LOG_ERROR, "systems. if you dont have a truetype font, you can turn the text off by\n");
     av_log(NULL, AV_LOG_ERROR, "using -i -t.\n");
 #endif
-    av_log(NULL, AV_LOG_ERROR, "\nmtn comes with ABSOLUTELY NO WARRANTY. this is free software, and you are\n");
+    av_log(NULL, AV_LOG_ERROR, "\nMtn comes with ABSOLUTELY NO WARRANTY. this is free software, and you are\n");
     av_log(NULL, AV_LOG_ERROR, "welcome to redistribute it under certain conditions; for details see file\n");
     av_log(NULL, AV_LOG_ERROR, "gpl-2.0.txt.\n");
 }
