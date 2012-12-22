@@ -19,6 +19,13 @@ Mtn builded the 2012-12-18 with FFMPEG 2012-11-25 and GD 2.0.34
 
 Compiled with : Lavc54.77.100 | Lavf54.37.100 | Lavu52.9.100 | SwS2.1.102 | GD2.0.34 | MinGW
 
+Sample
+===
+
+<p align="center">
+  <img src="https://raw.github.com/kwent/mtn/master/screenshots/sample.jpg" alt="Sample generated thumbnail"/>
+</p>
+
 Usage
 ===
 
@@ -93,7 +100,7 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 See the GNU General Public License for more details.
 ```
 
-Support & Contact:
+Support & Contact
 ===
 
 mtn is developed by tuit (but not maintained); though most of its magic is done by FFmpeg libraries.
