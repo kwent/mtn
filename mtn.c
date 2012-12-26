@@ -36,10 +36,10 @@
 */
 
 // enable unicode functions in mingw
-#ifdef WIN32
-    #define UNICODE
-    #define _UNICODE
-#endif
+//#ifdef WIN32
+//    #define UNICODE
+//    #define _UNICODE
+//#endif
 
 #include <assert.h>
 #include <ctype.h>
@@ -179,8 +179,7 @@ int gb_L_time_location = GB_L_TIME_LOCATION;
 int gb_n_normal = GB_N_NORMAL; // normal priority; 1 normal; 0 lower
 #define GB_N_SUFFIX NULL
 char *gb_N_suffix = GB_N_SUFFIX; // info text file suffix
-#define GB_FILENAME_USE_FULL 0
-int gb_filename_use_full = GB_FILENAME_USE_FULL; // use full input filename (include extension)
+#define GB_O_SUFFIX_USE_FULL 0
 #define GB_O_SUFFIX "_s.jpg"
 char *gb_o_suffix = GB_O_SUFFIX;
 #define GB_O_OUTDIR NULL
@@ -217,7 +216,7 @@ int gb_Z_nonseek = GB_Z_NONSEEK; // always use non-seek mode; 1 on; 0 off
 
 /* more global variables */
 char *gb_argv0 = NULL;
-char *gb_version = "20121125a copyright (c) 2007-2008 tuit, et al.";
+char *gb_version = "20121218a(j) copyright (c) 2007-2008 tuit, et al.";
 time_t gb_st_start = 0; // start time of program
 
 /* misc functions */
@@ -1512,15 +1511,15 @@ void make_thumbnail(char *file)
     }
     char *suffix = strrchr(tn.out_filename, '.');
 
-    if (gb_filename_use_full) {
-      strcat(tn.out_filename, gb_o_suffix);
+#if GB_O_SUFFIX_USE_FULL
+    strcat(tn.out_filename, gb_o_suffix);
+#else
+    if (NULL == suffix) {
+        strcat(tn.out_filename, gb_o_suffix);
     } else {
-      if (NULL == suffix) {
-          strcat(tn.out_filename, gb_o_suffix);
-      } else {
-          strcpy(suffix, gb_o_suffix);
-      }
+        strcpy(suffix, gb_o_suffix);
     }
+#endif
 
     if (NULL != gb_N_suffix) {
         suffix = strrchr(tn.info_filename, '.');
@@ -2646,13 +2645,13 @@ int get_double_opt(char c, double *opt, char *optarg, double sign)
 
 void usage()
 {
-    av_log(NULL, AV_LOG_ERROR, "\nmovie thumbnailer (mtn) %s\n", gb_version);
-    //wrong version; compile time not runtime
-    //av_log(NULL, AV_LOG_ERROR, "  with: %s %s %s %s GD%s\n", LIBAVCODEC_IDENT, LIBAVFORMAT_IDENT, LIBAVUTIL_IDENT, LIBSWSCALE_IDENT, GD_VERSION_STRING);
-    av_log(NULL, AV_LOG_ERROR, "mtn saves thumbnails of specified movie files or directories to jpeg files.\n");
-    av_log(NULL, AV_LOG_ERROR, "for directories, it will recursively search inside for movie files.\n");
-    av_log(NULL, AV_LOG_ERROR, "usage:\n  %s [options] file_or_dir1 [file_or_dir2] ... [file_or_dirn]\n", gb_argv0);
-    av_log(NULL, AV_LOG_ERROR, "options: (and default values)\n");
+    av_log(NULL, AV_LOG_ERROR, "\nMovie thumbnailer (mtn) %s\n", gb_version);
+    av_log(NULL, AV_LOG_ERROR, "Compiled with : %s %s %s %s GD%s\n\n", LIBAVCODEC_IDENT, LIBAVFORMAT_IDENT, LIBAVUTIL_IDENT, LIBSWSCALE_IDENT, GD_VERSION_STRING);
+    av_log(NULL, AV_LOG_ERROR, "Description:\n");
+    av_log(NULL, AV_LOG_ERROR, "  Mtn saves thumbnails of specified movie files or directories to jpeg files.\n");
+    av_log(NULL, AV_LOG_ERROR, "  For directories, it will recursively search inside for movie files.\n\n");
+    av_log(NULL, AV_LOG_ERROR, "Usage:\n  %s [options] file_or_dir1 [file_or_dir2] ... [file_or_dirn]\n\n", gb_argv0);
+    av_log(NULL, AV_LOG_ERROR, "Options: (and default values)\n");
     av_log(NULL, AV_LOG_ERROR, "  -a aspect_ratio : override input file's display aspect ratio\n");
     av_log(NULL, AV_LOG_ERROR, "  -b %.2f : skip if %% blank is higher; 0:skip all 1:skip really blank >1:off\n", GB_B_BLANK);
     av_log(NULL, AV_LOG_ERROR, "  -B %.1f : omit this seconds from the beginning\n", GB_B_BEGIN);
@@ -2685,10 +2684,9 @@ void usage()
     av_log(NULL, AV_LOG_ERROR, "  -v : verbose mode (debug)\n");
     av_log(NULL, AV_LOG_ERROR, "  -w %d : width of output image; 0:column * movie width\n", GB_W_WIDTH);
     av_log(NULL, AV_LOG_ERROR, "  -W : dont overwrite existing files, i.e. update mode\n");
-    av_log(NULL, AV_LOG_ERROR, "  -X : use full input filename (include extension)\n");
     av_log(NULL, AV_LOG_ERROR, "  -z : always use seek mode\n");
-    av_log(NULL, AV_LOG_ERROR, "  -Z : always use non-seek mode -- slower but more accurate timing\n");
-    av_log(NULL, AV_LOG_ERROR, "examples:\n");
+    av_log(NULL, AV_LOG_ERROR, "  -Z : always use non-seek mode -- slower but more accurate timing\n\n");
+    av_log(NULL, AV_LOG_ERROR, "Examples:\n");
     av_log(NULL, AV_LOG_ERROR, "  to save thumbnails to file infile%s with default options:\n    %s infile.avi\n", GB_O_SUFFIX, gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "  to change time step to 65 seconds & change total width to 900:\n    %s -s 65 -w 900 infile.avi\n", gb_argv0);
     // as of version 0.60, -s 0 is not needed
@@ -2697,18 +2695,18 @@ void usage()
     av_log(NULL, AV_LOG_ERROR, "  to get 2 columns in original movie size:\n    %s -c 2 -w 0 infile.avi\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "  to skip uninteresting shots, try:\n    %s -D 6 infile.avi\n", gb_argv0);
 #ifdef WIN32
-    av_log(NULL, AV_LOG_ERROR, "\nin windows, you can run %s from command prompt or drag files/dirs from\n", gb_argv0);
+    av_log(NULL, AV_LOG_ERROR, "\nIn windows, you can run %s from command prompt or drag files/dirs from\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "windows explorer and drop them on %s. you can change the default options\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "by creating a shortcut to %s and add options there (right click the\n", gb_argv0);
     av_log(NULL, AV_LOG_ERROR, "shortcut -> Properties -> Target); then drop files/dirs on the shortcut\n");
     av_log(NULL, AV_LOG_ERROR, "instead.\n");
 #else
-    av_log(NULL, AV_LOG_ERROR, "\nyou'll probably need to change the truetype font path (-f fontfile).\n");
+    av_log(NULL, AV_LOG_ERROR, "\nYou'll probably need to change the truetype font path (-f fontfile).\n");
     av_log(NULL, AV_LOG_ERROR, "the default is set to %s which might not exist in non-windows\n", GB_F_FONTNAME);
     av_log(NULL, AV_LOG_ERROR, "systems. if you dont have a truetype font, you can turn the text off by\n");
     av_log(NULL, AV_LOG_ERROR, "using -i -t.\n");
 #endif
-    av_log(NULL, AV_LOG_ERROR, "\nmtn comes with ABSOLUTELY NO WARRANTY. this is free software, and you are\n");
+    av_log(NULL, AV_LOG_ERROR, "\nMtn comes with ABSOLUTELY NO WARRANTY. this is free software, and you are\n");
     av_log(NULL, AV_LOG_ERROR, "welcome to redistribute it under certain conditions; for details see file\n");
     av_log(NULL, AV_LOG_ERROR, "gpl-2.0.txt.\n");
 }
@@ -2734,7 +2732,7 @@ int main(int argc, char *argv[])
     /* get & check options */
     int parse_error = 0;
     int c;
-    while (-1 != (c = getopt(argc, argv, "a:b:B:c:C:D:e:E:f:F:g:h:iIj:k:L:nN:o:O:pPqr:s:tT:vVw:WXzZ"))) {
+    while (-1 != (c = getopt(argc, argv, "a:b:B:c:C:D:e:E:f:F:g:h:iIj:k:L:nN:o:O:pPqr:s:tT:vVw:WzZ"))) {
         switch (c) {
         double tmp_a_ratio = 0;
         case 'a':
@@ -2853,9 +2851,6 @@ int main(int argc, char *argv[])
             break;
         case 'W':
             gb_W_overwrite = 0;
-            break;
-        case 'X':
-            gb_filename_use_full = 1;
             break;
         case 'z':
             gb_z_seek = 1; // always seek mode
