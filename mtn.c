@@ -133,91 +133,139 @@ typedef struct thumbnail
 
 /* LIBAVUTIL_VERSION_INT is too low for VERBOSE & INFO, so we'll define our own */
 #define LOG_INFO 0
-
 /* command line options & default values */
 #define GB_A_RATIO (AVRational){0, 1}
-AVRational gb_a_ratio = GB_A_RATIO;
 #define GB_B_BLANK 0.8
-double gb_b_blank = GB_B_BLANK;
 #define GB_B_BEGIN 0.0
-double gb_B_begin = GB_B_BEGIN; // skip this seconds from the beginning
 #define GB_C_COLUMN 3
-int gb_c_column = GB_C_COLUMN;
 #define GB_C_CUT -1
-double gb_C_cut = GB_C_CUT; // cut movie; <=0 off
 #define GB_D_EDGE 12
-int gb_D_edge = GB_D_EDGE; // edge detection; 0 off; >0 on
 #define GB_E_EXT NULL
-char *gb_e_ext = GB_E_EXT;
 #define GB_E_END 0.0
-double gb_E_end = GB_E_END; // skip this seconds at the end
 #define GB_F_FONTNAME "tahomabd.ttf"
-char *gb_f_fontname = GB_F_FONTNAME;
-rgb_color gb_F_info_color = COLOR_INFO; // info color
-double gb_F_info_font_size = 9; // info font size
-char *gb_F_ts_fontname = GB_F_FONTNAME; // time stamp fontname
-rgb_color gb_F_ts_color = COLOR_WHITE; // time stamp color
-rgb_color gb_F_ts_shadow = COLOR_BLACK; // time stamp shadow color
-double gb_F_ts_font_size = 8; // time stamp font size
 #define GB_G_GAP 0
-int gb_g_gap = GB_G_GAP;
 #define GB_H_HEIGHT 150
-int gb_h_height = GB_H_HEIGHT; // mininum height of each shot; will reduce # of column to meet this height
 #define GB_I_INFO 1
-int gb_i_info = GB_I_INFO; // 1 on; 0 off
 #define GB_I_INDIVIDUAL 0
-int gb_I_individual = GB_I_INDIVIDUAL; // 1 on; 0 off
 #define GB_J_QUALITY 90
-int gb_j_quality = GB_J_QUALITY;
 #define GB_K_BCOLOR COLOR_WHITE
-rgb_color gb_k_bcolor = GB_K_BCOLOR; // background color
 #define GB_L_INFO_LOCATION 4
-int gb_L_info_location = GB_L_INFO_LOCATION;
 #define GB_L_TIME_LOCATION 1
-int gb_L_time_location = GB_L_TIME_LOCATION;
 #define GB_N_NORMAL 0
-int gb_n_normal = GB_N_NORMAL; // normal priority; 1 normal; 0 lower
 #define GB_N_SUFFIX NULL
-char *gb_N_suffix = GB_N_SUFFIX; // info text file suffix
 #define GB_O_SUFFIX_USE_FULL 0
 #define GB_O_SUFFIX "_s.jpg"
-char *gb_o_suffix = GB_O_SUFFIX;
 #define GB_O_OUTDIR NULL
-char *gb_O_outdir = GB_O_OUTDIR;
 #ifdef WIN32
     #define GB_P_PAUSE 1
 #else
     #define GB_P_PAUSE 0
 #endif
-int gb_p_pause = GB_P_PAUSE; // pause before exiting; 1 pause; 0 dont pause
 #define GB_P_DONTPAUSE 0
-int gb_P_dontpause = GB_P_DONTPAUSE; // dont pause; overide gb_p_pause
 #define GB_Q_QUIET 0
-int gb_q_quiet = GB_Q_QUIET; // 1 on; 0 off
 #define GB_R_ROW 0
-int gb_r_row = GB_R_ROW; // 0 = as many rows as needed
 #define GB_S_STEP 120
-int gb_s_step = GB_S_STEP; // less than 0 = every frame; 0 = step evenly to get column x row
 #define GB_T_TIME 1
-int gb_t_timestamp = GB_T_TIME; // 1 on; 0 off
 #define GB_T_TEXT NULL
-char *gb_T_text = GB_T_TEXT;
 #define GB_V_VERBOSE 0
-int gb_v_verbose = GB_V_VERBOSE; // 1 on; 0 off
-int gb_V = GB_V_VERBOSE; // 1 on; 0 off
 #define GB_W_WIDTH 1024
-int gb_w_width = GB_W_WIDTH; // 0 = column * movie width
 #define GB_W_OVERWRITE 1
-int gb_W_overwrite = GB_W_OVERWRITE; // 1 = overwrite; 0 = dont overwrite
 #define GB_Z_SEEK 0
-int gb_z_seek = GB_Z_SEEK; // always use seek mode; 1 on; 0 off
 #define GB_Z_NONSEEK 0
-int gb_Z_nonseek = GB_Z_NONSEEK; // always use non-seek mode; 1 on; 0 off
+
+typedef struct params
+{
+  AVRational gb_a_ratio;
+  double gb_b_blank;
+  double gb_B_begin; // skip this seconds from the beginning
+  int gb_c_column;
+  double gb_C_cut; // cut movie; <=0 off
+  int gb_D_edge; // edge detection; 0 off; >0 on
+  char *gb_e_ext;
+  double gb_E_end; // skip this seconds at the end
+  char *gb_f_fontname;
+  rgb_color gb_F_info_color; // info color
+  double gb_F_info_font_size; // info font size
+  char *gb_F_ts_fontname; // time stamp fontname
+  rgb_color gb_F_ts_color; // time stamp color
+  rgb_color gb_F_ts_shadow; // time stamp shadow color
+  double gb_F_ts_font_size; // time stamp font size
+  int gb_g_gap;
+  int gb_h_height; // mininum height of each shot; will reduce # of column to meet this height
+  int gb_i_info; // 1 on; 0 off
+  int gb_I_individual; // 1 on; 0 off
+  int gb_j_quality;
+  rgb_color gb_k_bcolor; // background color
+  int gb_L_info_location;
+  int gb_L_time_location;
+  int gb_n_normal; // normal priority; 1 normal; 0 lower
+  char *gb_N_suffix; // info text file suffix
+  char *gb_o_suffix;
+  char *gb_O_outdir;
+  int gb_p_pause; // pause before exiting; 1 pause; 0 dont pause
+  int gb_P_dontpause; // dont pause; overide gb_p_pause
+  int gb_q_quiet; // 1 on; 0 off
+  int gb_r_row; // 0 = as many rows as needed
+  int gb_s_step; // less than 0 = every frame; 0 = step evenly to get column x row
+  int gb_t_timestamp; // 1 on; 0 off
+  char *gb_T_text;
+  int gb_v_verbose; // 1 on; 0 off
+  int gb_V; // 1 on; 0 off
+  int gb_w_width; // 0 = column * movie width
+  int gb_W_overwrite; // 1 = overwrite; 0 = dont overwrite
+  int gb_z_seek; // always use seek mode; 1 on; 0 off
+  int gb_Z_nonseek; // always use non-seek mode; 1 on; 0 off
+
+} params; // params data & info
+
 
 /* more global variables */
 char *gb_argv0 = NULL;
 char *gb_version = "20121218a(j) copyright (c) 2007-2008 tuit, et al.";
 time_t gb_st_start = 0; // start time of program
+params parameters =
+        {
+            GB_A_RATIO,
+            GB_B_BLANK,
+            GB_B_BEGIN, // skip this seconds from the beginning
+            GB_C_COLUMN,
+            GB_C_CUT, // cut movie; <=0 off
+            GB_D_EDGE, // edge detection; 0 off; >0 on
+            GB_E_EXT,
+            GB_E_END, // skip this seconds at the end
+            GB_F_FONTNAME,
+            COLOR_INFO, // info color
+            9, // info font size
+            GB_F_FONTNAME, // time stamp fontname
+            COLOR_WHITE, // time stamp color
+            COLOR_BLACK, // time stamp shadow color
+            8, // time stamp font size
+            GB_G_GAP,
+            GB_H_HEIGHT, // mininum height of each shot; will reduce # of column to meet this height
+            GB_I_INFO, // 1 on; 0 off
+            GB_I_INDIVIDUAL, // 1 on; 0 off
+            GB_J_QUALITY,
+            GB_K_BCOLOR, // background color
+            GB_L_INFO_LOCATION,
+            GB_L_TIME_LOCATION,
+            GB_N_NORMAL, // normal priority; 1 normal; 0 lower
+            GB_N_SUFFIX, // info text file suffix
+            GB_O_SUFFIX,
+            GB_O_OUTDIR,
+            GB_P_PAUSE, // pause before exiting; 1 pause; 0 dont pause
+            GB_P_DONTPAUSE, // dont pause; overide gb_p_pause
+            GB_Q_QUIET, // 1 on; 0 off
+            GB_R_ROW, // 0 = as many rows as needed
+            GB_S_STEP, // less than 0 = every frame; 0 = step evenly to get column x row
+            GB_T_TIME, // 1 on; 0 off
+            GB_T_TEXT,
+            GB_V_VERBOSE, // 1 on; 0 off
+            GB_V_VERBOSE, // 1 on; 0 off
+            GB_W_WIDTH, // 0 = column * movie width
+            GB_W_OVERWRITE, // 1 = overwrite; 0 = dont overwrite
+            GB_Z_SEEK, // always use seek mode; 1 on; 0 off
+            GB_Z_NONSEEK // always use non-seek mode; 1 on; 0 off
+        };
 
 /* misc functions */
 
@@ -536,7 +584,7 @@ int save_jpg(gdImagePtr ip, char *outname)
     }
 
     errno = 0;
-    gdImageJpeg(ip, fp, gb_j_quality);  /* how to check if write was successful? */
+    gdImageJpeg(ip, fp, parameters.gb_j_quality);  /* how to check if write was successful? */
     if (0 != errno) { // FIXME: valid check?
         goto cleanup;
     }
@@ -627,9 +675,9 @@ in increasing order.
 */
 void thumb_add_shot(thumbnail *ptn, gdImagePtr ip, int idx, int64_t pts)
 {
-    int dstX = idx%ptn->column * (ptn->shot_width+gb_g_gap) + gb_g_gap + ptn->center_gap;
-    int dstY = idx/ptn->column * (ptn->shot_height+gb_g_gap) + gb_g_gap
-        + ((3 == gb_L_info_location || 4 == gb_L_info_location) ? ptn->txt_height : 0);
+    int dstX = idx%ptn->column * (ptn->shot_width+parameters.gb_g_gap) + parameters.gb_g_gap + ptn->center_gap;
+    int dstY = idx/ptn->column * (ptn->shot_height+parameters.gb_g_gap) + parameters.gb_g_gap
+        + ((3 == parameters.gb_L_info_location || 4 == parameters.gb_L_info_location) ? ptn->txt_height : 0);
     gdImageCopy(ptn->out_ip, ip, dstX, dstY, 0, 0, ptn->shot_width, ptn->shot_height);
     ptn->idx = idx;
     ptn->ppts[idx] = pts;
@@ -715,7 +763,7 @@ float cmp_edge(gdImagePtr ip, int xbegin, int ybegin, int xend, int yend)
 
 int is_edge(float *edge, float edge_found)
 {
-    if (gb_V) { // DEBUG
+    if (parameters.gb_V) { // DEBUG
         return 1;
     }
     int count = 0;
@@ -751,11 +799,11 @@ gdImagePtr detect_edge(AVFrame *pFrame, int width, int height, float *edge, floa
     static int init_filter = 0; // FIXME
     if (0 == init_filter) {
         init_filter = 1;
-        filter[1] = -gb_D_edge/4.0f;
-        filter[3] = -gb_D_edge/4.0f;
-        filter[4] =  gb_D_edge;
-        filter[5] = -gb_D_edge/4.0f;
-        filter[7] = -gb_D_edge/4.0f;
+        filter[1] = -parameters.gb_D_edge/4.0f;
+        filter[3] = -parameters.gb_D_edge/4.0f;
+        filter[4] =  parameters.gb_D_edge;
+        filter[5] = -parameters.gb_D_edge/4.0f;
+        filter[7] = -parameters.gb_D_edge/4.0f;
     }
 
     gdImagePtr ip = gdImageCreateTrueColor(width, height);
@@ -763,7 +811,7 @@ gdImagePtr detect_edge(AVFrame *pFrame, int width, int height, float *edge, floa
         av_log(NULL, AV_LOG_ERROR, "  gdImageCreateTrueColor failed\n");
         return NULL;
     }
-    if (gb_v_verbose > 0) {
+    if (parameters.gb_v_verbose > 0) {
         FrameRGB_2_gdImage(pFrame, ip, width, height);
     }
 
@@ -956,7 +1004,7 @@ void get_stream_info_type(AVFormatContext *ic, enum AVMediaType type, char *buf,
             continue;
         }
 
-        if (gb_v_verbose > 0) {
+        if (parameters.gb_v_verbose > 0) {
             sprintf(buf + strlen(buf), "Stream %d", i);
             if (flags & AVFMT_SHOW_IDS) {
                 sprintf(buf + strlen(buf), "[0x%x]", st->id);
@@ -1475,8 +1523,8 @@ void make_thumbnail(char *file)
     thumbnail tn; // thumbnail data & info
     thumb_new(&tn);
     // shot sh; // shot info
-    shot fill_buffer[gb_c_column-1]; // skipped shots to fill the last row
-    for (i=0; i<gb_c_column-1; i++) {
+    shot fill_buffer[parameters.gb_c_column-1]; // skipped shots to fill the last row
+    for (i=0; i<parameters.gb_c_column-1; i++) {
         fill_buffer[i].ip = NULL;
     }
     int nb_shots = 0; // # of decoded shots (stat purposes)
@@ -1494,58 +1542,58 @@ void make_thumbnail(char *file)
     FILE *info_fp = NULL;
     gdImagePtr ip = NULL;
 
-    int t_timestamp = gb_t_timestamp; // local timestamp; can be turned off; 0 = off
+    int t_timestamp = parameters.gb_t_timestamp; // local timestamp; can be turned off; 0 = off
     int ret;
 
     av_log(NULL, LOG_INFO, "\n");
 
     /* check if output file already exists & open output file */
-    if (NULL != gb_O_outdir && strlen(gb_O_outdir) > 0) {
-        strcpy_va(tn.out_filename, 3, gb_O_outdir, "/", path_2_file(file));
-        if (NULL != gb_N_suffix)
-            strcpy_va(tn.info_filename, 3, gb_O_outdir, "/", path_2_file(file));
+    if (NULL != parameters.gb_O_outdir && strlen(parameters.gb_O_outdir) > 0) {
+        strcpy_va(tn.out_filename, 3, parameters.gb_O_outdir, "/", path_2_file(file));
+        if (NULL != parameters.gb_N_suffix)
+            strcpy_va(tn.info_filename, 3, parameters.gb_O_outdir, "/", path_2_file(file));
     } else {
         strcpy(tn.out_filename, file);
-        if (NULL != gb_N_suffix)
+        if (NULL != parameters.gb_N_suffix)
             strcpy(tn.info_filename, file);
     }
     char *suffix = strrchr(tn.out_filename, '.');
 
 #if GB_O_SUFFIX_USE_FULL
-    strcat(tn.out_filename, gb_o_suffix);
+    strcat(tn.out_filename, parameters.gb_o_suffix);
 #else
     if (NULL == suffix) {
-        strcat(tn.out_filename, gb_o_suffix);
+        strcat(tn.out_filename,parameters. gb_o_suffix);
     } else {
-        strcpy(suffix, gb_o_suffix);
+        strcpy(suffix, parameters.gb_o_suffix);
     }
 #endif
 
-    if (NULL != gb_N_suffix) {
+    if (NULL !=parameters. gb_N_suffix) {
         suffix = strrchr(tn.info_filename, '.');
         if (NULL == suffix) {
-            strcat(tn.info_filename, gb_N_suffix);
+            strcat(tn.info_filename, parameters.gb_N_suffix);
         } else {
-            strcpy(suffix, gb_N_suffix);
+            strcpy(suffix, parameters.gb_N_suffix);
         }
     }
     // if output files exist and modified time >= program start time,
     // we'll not overwrite and use a new name
     int unum = 0;
     if (is_reg_newer(tn.out_filename, gb_st_start)) {
-        unum = make_unique_name(tn.out_filename, gb_o_suffix, unum);
+        unum = make_unique_name(tn.out_filename, parameters.gb_o_suffix, unum);
         av_log(NULL, LOG_INFO, "%s: output file already exists. using: %s\n", gb_argv0, tn.out_filename);
     }
-    if (NULL != gb_N_suffix && is_reg_newer(tn.info_filename, gb_st_start)) {
-        unum = make_unique_name(tn.info_filename, gb_N_suffix, unum);
+    if (NULL != parameters.gb_N_suffix && is_reg_newer(tn.info_filename, gb_st_start)) {
+        unum = make_unique_name(tn.info_filename,parameters. gb_N_suffix, unum);
         av_log(NULL, LOG_INFO, "%s: info file already exists. using: %s\n", gb_argv0, tn.info_filename);
     }
-    if (0 == gb_W_overwrite) { // dont overwrite mode
+    if (0 == parameters.gb_W_overwrite) { // dont overwrite mode
         if (is_reg(tn.out_filename)) {
             av_log(NULL, LOG_INFO, "%s: output file %s already exists. omitted.\n", gb_argv0, tn.out_filename);
             goto cleanup;
         }
-        if (NULL != gb_N_suffix && is_reg(tn.info_filename)) {
+        if (NULL != parameters.gb_N_suffix && is_reg(tn.info_filename)) {
             av_log(NULL, LOG_INFO, "%s: info file %s already exists. omitted.\n", gb_argv0, tn.info_filename);
             goto cleanup;
         }
@@ -1564,7 +1612,7 @@ void make_thumbnail(char *file)
         av_log(NULL, AV_LOG_ERROR, "\n%s: creating output image '%s' failed: %s\n", gb_argv0, tn.out_filename, strerror(errno));
         goto cleanup;
     }
-    if (NULL != gb_N_suffix) {
+    if (NULL != parameters.gb_N_suffix) {
         info_fp = _tfopen(info_filename_w, _TEXT("wb"));
         if (NULL == info_fp) {
             av_log(NULL, AV_LOG_ERROR, "\n%s: creating info file '%s' failed: %s\n", gb_argv0, tn.info_filename, strerror(errno));
@@ -1621,7 +1669,7 @@ void make_thumbnail(char *file)
     }
 
     // discard frames; is this OK?? // FIXME
-    if (gb_s_step >= 0) {
+    if (parameters.gb_s_step >= 0) {
         // nonkey & bidir cause program crash with some files, e.g. tokyo 275 .
         // codec bugs???
         //pCodecCtx->skip_frame = AVDISCARD_NONKEY; // slower with nike 15-11-07
@@ -1654,7 +1702,7 @@ void make_thumbnail(char *file)
     if (duration <= 0) {
         duration = guess_duration(pFormatCtx, video_index, pCodecCtx, pFrame);
         // have to turn timestamping off because it'll be incorrect
-        if (1 == gb_t_timestamp) { // on
+        if (1 == parameters.gb_t_timestamp) { // on
             t_timestamp = 0;
             av_log(NULL, AV_LOG_ERROR, "  turning time stamp off because of duration\n");
         }
@@ -1696,10 +1744,10 @@ void make_thumbnail(char *file)
 
     // set sample_aspect_ratio
     // assuming sample_y = display_y
-    if (gb_a_ratio.num != 0) { // use cmd line arg if specified
-        sample_aspect_ratio.num = (double) pCodecCtx->height * av_q2d(gb_a_ratio) / pCodecCtx->width * 10000;
+    if (parameters.gb_a_ratio.num != 0) { // use cmd line arg if specified
+        sample_aspect_ratio.num = (double) pCodecCtx->height * av_q2d(parameters.gb_a_ratio) / pCodecCtx->width * 10000;
         sample_aspect_ratio.den = 10000;
-        av_log(NULL, LOG_INFO, "  *** using sample_aspect_ratio: %d/%d because of -a %.4f option\n", sample_aspect_ratio.num, sample_aspect_ratio.den, av_q2d(gb_a_ratio));
+        av_log(NULL, LOG_INFO, "  *** using sample_aspect_ratio: %d/%d because of -a %.4f option\n", sample_aspect_ratio.num, sample_aspect_ratio.den, av_q2d(parameters.gb_a_ratio));
     } else {
         if (sample_aspect_ratio.num != 0 && pCodecCtx->sample_aspect_ratio.num != 0
             && av_q2d(sample_aspect_ratio) != av_q2d(pCodecCtx->sample_aspect_ratio)) {
@@ -1718,15 +1766,15 @@ void make_thumbnail(char *file)
     /* calc options */
     // FIXME: make sure values are ok when movies are very short or very small
     double net_duration;
-    if (gb_C_cut > 0) {
-        net_duration = gb_C_cut;
-        if (net_duration + gb_B_begin > duration) {
-            net_duration = duration - gb_B_begin;
-            av_log(NULL, AV_LOG_ERROR, "  -C %.2f s is too long, using %.2f s.\n", gb_C_cut, net_duration);
+    if (parameters.gb_C_cut > 0) {
+        net_duration = parameters.gb_C_cut;
+        if (net_duration + parameters.gb_B_begin > duration) {
+            net_duration = duration - parameters.gb_B_begin;
+            av_log(NULL, AV_LOG_ERROR, "  -C %.2f s is too long, using %.2f s.\n", parameters.gb_C_cut, net_duration);
         }
     } else {
         //double net_duration = duration - start_time - gb_B_begin - gb_E_end;
-        net_duration = duration - gb_B_begin - gb_E_end; // DVD
+        net_duration = duration - parameters.gb_B_begin - parameters.gb_E_end; // DVD
         if (net_duration <= 0) {
             av_log(NULL, AV_LOG_ERROR, "  duration: %.2f s, net duration after -B & -E is negative: %.2f s.\n", duration, net_duration);
             goto cleanup;
@@ -1743,7 +1791,7 @@ void make_thumbnail(char *file)
             sample_aspect_ratio.num, sample_aspect_ratio.den);
     }
 
-    tn.column = gb_c_column + 1; // will be -1 in the loop
+    tn.column = parameters.gb_c_column + 1; // will be -1 in the loop
     int seek_mode = 1; // 1 = seek; 0 = non-seek
     tn.step = -99999; // seconds
     tn.row = -99999;
@@ -1752,15 +1800,15 @@ void make_thumbnail(char *file)
     tn.shot_height = -99999;
 
     // reduce # of column until we meet minimum height except when movie is too small
-    while (tn.shot_height < gb_h_height && tn.column > 0 && tn.shot_width != scaled_src_width) {
+    while (tn.shot_height < parameters.gb_h_height && tn.column > 0 && tn.shot_width != scaled_src_width) {
         tn.column--;
-        if (gb_s_step == 0) { // step evenly to get column x row
-            tn.step = net_duration / (tn.column * gb_r_row + 1);
+        if (parameters.gb_s_step == 0) { // step evenly to get column x row
+            tn.step = net_duration / (tn.column * parameters.gb_r_row + 1);
         } else {
-            tn.step = gb_s_step;
+            tn.step = parameters.gb_s_step;
         }
-        if (gb_r_row > 0) {
-            tn.row = gb_r_row;
+        if (parameters.gb_r_row > 0) {
+            tn.row = parameters.gb_r_row;
             // if # of columns is reduced, we should increase # of rows so # of tiles would be almost the same
             // could some users not want this?
         } else { // as many rows as needed
@@ -1773,43 +1821,43 @@ void make_thumbnail(char *file)
         // make sure last row is full
         tn.step = net_duration / (tn.column * tn.row + 1);
 
-        int full_width = tn.column * (scaled_src_width + gb_g_gap) + gb_g_gap;
-        if (gb_w_width > 0 && gb_w_width < full_width) {
-            tn.width = gb_w_width;
+        int full_width = tn.column * (scaled_src_width + parameters.gb_g_gap) + parameters.gb_g_gap;
+        if (parameters.gb_w_width > 0 && parameters.gb_w_width < full_width) {
+            tn.width = parameters.gb_w_width;
         } else {
             tn.width = full_width;
         }
-        tn.shot_width = floor((tn.width - gb_g_gap*(tn.column+1)) / (double)tn.column + 0.5); // round nearest
+        tn.shot_width = floor((tn.width - parameters.gb_g_gap*(tn.column+1)) / (double)tn.column + 0.5); // round nearest
         tn.shot_width -= tn.shot_width%2; // floor to even number
         tn.shot_height = floor((double) scaled_src_height / scaled_src_width * tn.shot_width + 0.5); // round nearest
         tn.shot_height -= tn.shot_height%2; // floor to even number
-        tn.center_gap = (tn.width - gb_g_gap*(tn.column+1) - tn.shot_width * tn.column) / 2.0;
+        tn.center_gap = (tn.width - parameters.gb_g_gap*(tn.column+1) - tn.shot_width * tn.column) / 2.0;
     }
     if (tn.step == 0) {
         av_log(NULL, AV_LOG_ERROR, "  step is zero; movie is too short?\n");
         goto cleanup;
     }
-    if (tn.column != gb_c_column) {
-        av_log(NULL, LOG_INFO, "  changing # of column to %d to meet minimum height of %d; see -h option\n", tn.column, gb_h_height);
+    if (tn.column != parameters.gb_c_column) {
+        av_log(NULL, LOG_INFO, "  changing # of column to %d to meet minimum height of %d; see -h option\n", tn.column, parameters.gb_h_height);
     }
-    if (gb_w_width > 0 && gb_w_width != tn.width) {
+    if (parameters.gb_w_width > 0 && parameters.gb_w_width != tn.width) {
         av_log(NULL, LOG_INFO, "  changing width to %d to match movie's size (%dx%d)\n", tn.width, scaled_src_width, tn.column);
     }
     char *all_text = get_stream_info(pFormatCtx, file, 1, sample_aspect_ratio); // FIXME: using function's static buffer
     if (NULL != info_fp) {
         fprintf(info_fp, all_text);
     }
-    if (0 == gb_i_info) { // off
+    if (0 == parameters.gb_i_info) { // off
         *all_text = '\0';
     }
-    if (NULL != gb_T_text) {
-        all_text = strcat(all_text, gb_T_text);
+    if (NULL != parameters.gb_T_text) {
+        all_text = strcat(all_text, parameters.gb_T_text);
         if (NULL != info_fp) {
-            fprintf(info_fp, "%s%s", gb_T_text, NEWLINE);
+            fprintf(info_fp, "%s%s", parameters.gb_T_text, NEWLINE);
         }
     }
-    tn.txt_height = image_string_height(all_text, gb_f_fontname, gb_F_info_font_size) + gb_g_gap;
-    tn.height = tn.shot_height*tn.row + gb_g_gap*(tn.row+1) + tn.txt_height;
+    tn.txt_height = image_string_height(all_text, parameters.gb_f_fontname,parameters. gb_F_info_font_size) + parameters.gb_g_gap;
+    tn.height = tn.shot_height*tn.row + parameters.gb_g_gap*(tn.row+1) + tn.txt_height;
     av_log(NULL, LOG_INFO, "  step: %d s; # tiles: %dx%d, tile size: %dx%d; total size: %dx%d\n", 
         tn.step, tn.column, tn.row, tn.shot_width, tn.shot_height, tn.width, tn.height);
 
@@ -1852,14 +1900,14 @@ void make_thumbnail(char *file)
         av_log(NULL, AV_LOG_ERROR, "  gdImageCreateTrueColor failed: width %d, height %d\n", tn.width, tn.height);
         goto cleanup;
     }
-    int background = gdImageColorResolve(tn.out_ip, gb_k_bcolor.r, gb_k_bcolor.g, gb_k_bcolor.b); // set backgroud
+    int background = gdImageColorResolve(tn.out_ip, parameters.gb_k_bcolor.r, parameters.gb_k_bcolor.g, parameters.gb_k_bcolor.b); // set backgroud
     gdImageFilledRectangle(tn.out_ip, 0, 0, tn.width, tn.height, background);
 
     /* add info & text */ // do this early so when font is not found we'll quit early
     if (NULL != all_text && strlen(all_text) > 0) {
         char *str_ret = image_string(tn.out_ip, 
-            gb_f_fontname, gb_F_info_color, gb_F_info_font_size, 
-            gb_L_info_location, gb_g_gap, all_text, 0, COLOR_WHITE);
+            parameters.gb_f_fontname, parameters.gb_F_info_color, parameters.gb_F_info_font_size,
+            parameters.gb_L_info_location, parameters.gb_g_gap, all_text, 0, COLOR_WHITE);
         if (NULL != str_ret) {
             av_log(NULL, AV_LOG_ERROR, "  %s; font problem? see -f option\n", str_ret);
             goto cleanup;
@@ -1872,25 +1920,25 @@ void make_thumbnail(char *file)
         goto cleanup;
     }
 
-    if (1 == gb_z_seek) {
+    if (1 == parameters.gb_z_seek) {
         seek_mode = 1;
     }
-    if (1 == gb_Z_nonseek) {
+    if (1 == parameters.gb_Z_nonseek) {
         seek_mode = 0;
         av_log(NULL, LOG_INFO, "  *** using non-seek mode -- slower but more accurate timing.\n");
     }
 
   restart: ;
     /* decode & fill in the shots */
-    if (0 == seek_mode && gb_B_begin > 10) {
-        av_log(NULL, LOG_INFO, "  -B %.2f with non-seek mode will take some time.\n", gb_B_begin);
+    if (0 == seek_mode && parameters.gb_B_begin > 10) {
+        av_log(NULL, LOG_INFO, "  -B %.2f with non-seek mode will take some time.\n", parameters.gb_B_begin);
     }
 
     int64_t seek_target, seek_evade = 0; // in time_base unit
     int evade_try = 0; // blank screen evasion index
     double avg_evade_try = 0; // average
     int direction = 0; // seek direction (seek flags)
-    seek_target = (tn.step + start_time + gb_B_begin) / av_q2d(pStream->time_base);
+    seek_target = (tn.step + start_time + parameters.gb_B_begin) / av_q2d(pStream->time_base);
     int idx = 0; // idx = thumb_idx
     int thumb_nb = tn.row * tn.column; // thumb_nb = # of shots we need
     int64_t prevshot_pts = -1; // pts of previous good shot
@@ -1962,7 +2010,7 @@ void make_thumbnail(char *file)
         double found_diff = (found_pts - eff_target) * av_q2d(pStream->time_base);
         //av_log(NULL, LOG_INFO, "  found_diff: %.2f\n", found_diff); // DEBUG
         // if found frame is too far off from target, we'll disable seeking and start over
-        if (idx < 5 && 1 == seek_mode && 0 == gb_z_seek 
+        if (idx < 5 && 1 == seek_mode && 0 == parameters.gb_z_seek
             // usually movies have key frames every 10 s
             && (tn.step < 15 || found_diff > 15)
             && (found_diff <= -tn.step || found_diff >= tn.step)) {
@@ -2045,13 +2093,13 @@ void make_thumbnail(char *file)
         double blank = blank_frame(pFrameRGB, tn.shot_width, tn.shot_height);
         // only do edge when blank detection doesn't work
         float edge[EDGE_PARTS] = {1,1,1,1,1,1}; // FIXME: change this if EDGE_PARTS is changed
-        if (evade_step > 0 && blank <= gb_b_blank && gb_D_edge > 0) {
+        if (evade_step > 0 && blank <= parameters.gb_b_blank && parameters.gb_D_edge > 0) {
             edge_ip = detect_edge(pFrameRGB, tn.shot_width, tn.shot_height, edge, EDGE_FOUND);
         }
         //av_log(NULL, AV_LOG_VERBOSE, "  idx: %d, evade_try: %d, blank: %.2f%s edge: %.3f %.3f %.3f %.3f %.3f %.3f%s\n", 
         //    idx, evade_try, blank, (blank > gb_b_blank) ? "**b**" : "", 
         //    edge[0], edge[1], edge[2], edge[3], edge[4], edge[5], is_edge(edge, EDGE_FOUND) ? "" : "**e**"); // DEBUG
-        if (evade_step > 0 && (blank > gb_b_blank || !is_edge(edge, EDGE_FOUND))) {
+        if (evade_step > 0 && (blank > parameters.gb_b_blank || !is_edge(edge, EDGE_FOUND))) {
             idx--;
             evade_try++;
             // we'll always search forward to support non-seek mode, which cant go backward
@@ -2084,7 +2132,7 @@ void make_thumbnail(char *file)
         FrameRGB_2_gdImage(pFrameRGB, ip, tn.shot_width, tn.shot_height);
 
         /* if debugging, save the edge instead */
-        if (gb_v_verbose > 0 && NULL != edge_ip) {
+        if (parameters.gb_v_verbose > 0 && NULL != edge_ip) {
             gdImageDestroy(ip);
             ip = edge_ip;
             edge_ip = NULL;
@@ -2096,28 +2144,28 @@ void make_thumbnail(char *file)
             char time_str[15]; // FIXME
             format_time(calc_time(found_pts, pStream->time_base, start_time), time_str, ':');
             char *str_ret = image_string(ip, 
-                gb_F_ts_fontname, gb_F_ts_color, gb_F_ts_font_size, 
-                gb_L_time_location, 0, time_str, 1, gb_F_ts_shadow);
+                parameters.gb_F_ts_fontname, parameters.gb_F_ts_color, parameters.gb_F_ts_font_size,
+                parameters.gb_L_time_location, 0, time_str, 1, parameters.gb_F_ts_shadow);
             if (NULL != str_ret) {
                 av_log(NULL, AV_LOG_ERROR, "  %s; font problem? see -f option or -F option\n", str_ret);
                 goto cleanup; // LEAK: ip, edge_ip
             }
             /* stamp idx & blank & edge for debugging */
-            if (gb_v_verbose > 0) {
+            if (parameters.gb_v_verbose > 0) {
                 char idx_str[10]; // FIXME
                 sprintf(idx_str, "idx: %d, blank: %.2f\n%.6f  %.6f\n%.6f  %.6f\n%.6f  %.6f", 
                     idx, blank, edge[0], edge[1], edge[2], edge[3], edge[4], edge[5]);
-                image_string(ip, gb_f_fontname, COLOR_WHITE, gb_F_ts_font_size, 2, 0, idx_str, 1, COLOR_BLACK);
+                image_string(ip, parameters.gb_f_fontname, COLOR_WHITE, parameters.gb_F_ts_font_size, 2, 0, idx_str, 1, COLOR_BLACK);
             }
         }
 
         /* save individual shots */
-        if (1 == gb_I_individual) {
+        if (1 == parameters.gb_I_individual) {
             char time_str[15]; // FIXME
             format_time(calc_time(found_pts, pStream->time_base, start_time), time_str, '_');
             char individual_filename[UTF8_FILENAME_SIZE]; // FIXME
             strcpy(individual_filename, tn.out_filename);
-            char *suffix = strstr(individual_filename, gb_o_suffix);
+            char *suffix = strstr(individual_filename, parameters.gb_o_suffix);
             assert(NULL != suffix);
             //sprintf(suffix, "_shot%05d.jpg", idx); // FIXME: hopefully 5 digits will be enough
             sprintf(suffix, "_%s_%05d.jpg", time_str, idx); // FIXME: hopefully 5 digits will be enough
@@ -2171,7 +2219,7 @@ void make_thumbnail(char *file)
 
     /* save output image */
     errno = 0;
-    gdImageJpeg(tn.out_ip, out_fp, gb_j_quality);  /* FIXME: how to check if write was successful? */
+    gdImageJpeg(tn.out_ip, out_fp, parameters.gb_j_quality);  /* FIXME: how to check if write was successful? */
     if (0 != errno) { // FIXME: this should work?
         av_log(NULL, AV_LOG_ERROR, "  saving output image failed: %s\n", strerror(errno));
         goto cleanup;
@@ -2458,7 +2506,7 @@ int get_location_opt(char c, char *optarg)
     if (NULL == token) {
         goto cleanup;
     }
-    gb_L_info_location = strtod(token, &tailptr);
+    parameters.gb_L_info_location = strtod(token, &tailptr);
     if ('\0' != *tailptr) { // error
         goto cleanup;
     }
@@ -2469,7 +2517,7 @@ int get_location_opt(char c, char *optarg)
         ret = 0; // time stamp format is optional
         goto cleanup;
     }
-    gb_L_time_location = strtod(token, &tailptr);
+    parameters. gb_L_time_location = strtod(token, &tailptr);
     if ('\0' != *tailptr) { // error
         goto cleanup;
     }
@@ -2491,7 +2539,7 @@ col must be in the correct format RRGGBB (in hex)
 */
 rgb_color color_str2rgb_color(color_str col)
 {
-    return (rgb_color) {CHAR2INT(col[0])*16 + CHAR2INT(col[1]), 
+    return (rgb_color) {CHAR2INT(col[0])*16 + CHAR2INT(col[1]),
         CHAR2INT(col[2])*16 + CHAR2INT(col[3]), 
         CHAR2INT(col[4])*16 + CHAR2INT(col[5]) };
 }
@@ -2545,7 +2593,7 @@ int get_format_opt(char c, char *optarg)
 
     // info text font color
     char *token = strtok(optarg, delim);
-    if (NULL == token || -1 == parse_color(&gb_F_info_color, token)) {
+    if (NULL == token || -1 == parse_color(&parameters.gb_F_info_color, token)) {
         goto cleanup;
     }
     // info text font size
@@ -2554,7 +2602,7 @@ int get_format_opt(char c, char *optarg)
         goto cleanup;
     }
     char *tailptr;
-    gb_F_info_font_size = strtod(token, &tailptr);
+    parameters.gb_F_info_font_size = strtod(token, &tailptr);
     if ('\0' != *tailptr) { // error
         goto cleanup;
     }
@@ -2562,19 +2610,19 @@ int get_format_opt(char c, char *optarg)
     token = strtok (NULL, delim);
     if (NULL == token) {
         ret = 0; // time stamp format is optional
-        gb_F_ts_fontname = gb_f_fontname;
-        gb_F_ts_font_size = gb_F_info_font_size - 1;
+        parameters.gb_F_ts_fontname = parameters.gb_f_fontname;
+        parameters.gb_F_ts_font_size = parameters.gb_F_info_font_size - 1;
         goto cleanup;
     }
-    gb_F_ts_fontname = token;
+    parameters.gb_F_ts_fontname = token;
     // time stamp font color
     token = strtok (NULL, delim);
-    if (NULL == token || -1 == parse_color(&gb_F_ts_color , token)) {
+    if (NULL == token || -1 == parse_color(&parameters.gb_F_ts_color , token)) {
         goto cleanup;
     }
     // time stamp shadow color
     token = strtok (NULL, delim);
-    if (NULL == token || -1 == parse_color(&gb_F_ts_shadow  , token)) {
+    if (NULL == token || -1 == parse_color(&parameters.gb_F_ts_shadow  , token)) {
         goto cleanup;
     }
     // time stamp font size
@@ -2582,7 +2630,7 @@ int get_format_opt(char c, char *optarg)
     if (NULL == token) {
         goto cleanup;
     }
-    gb_F_ts_font_size = strtod(token, &tailptr);
+    parameters.gb_F_ts_font_size = strtod(token, &tailptr);
     if ('\0' != *tailptr) { // error
         goto cleanup;
     }
@@ -2658,7 +2706,7 @@ void usage()
     av_log(NULL, AV_LOG_ERROR, "  -c %d : # of column\n", GB_C_COLUMN);
     av_log(NULL, AV_LOG_ERROR, "  -C %d : cut movie and thumbnails not more than the specified seconds; <=0:off\n", GB_C_CUT);
     //av_log(NULL, AV_LOG_ERROR, "  -d : this option shouldn't be needed anymore\n");
-    av_log(NULL, AV_LOG_ERROR, "  -D %d : edge detection; 0:off >0:on; higher detects more; try -D4 -D6 or -D8\n", gb_D_edge);
+    av_log(NULL, AV_LOG_ERROR, "  -D %d : edge detection; 0:off >0:on; higher detects more; try -D4 -D6 or -D8\n", parameters.gb_D_edge);
     //av_log(NULL, AV_LOG_ERROR, "  -e : to be done\n"); // extension of movie files
     av_log(NULL, AV_LOG_ERROR, "  -E %.1f : omit this seconds at the end\n", GB_E_END);
     av_log(NULL, AV_LOG_ERROR, "  -f %s : font file; use absolute path if not in usual places\n", GB_F_FONTNAME);
@@ -2732,131 +2780,132 @@ int main(int argc, char *argv[])
     /* get & check options */
     int parse_error = 0;
     int c;
+
     while (-1 != (c = getopt(argc, argv, "a:b:B:c:C:D:e:E:f:F:g:h:iIj:k:L:nN:o:O:pPqr:s:tT:vVw:WzZ"))) {
         switch (c) {
         double tmp_a_ratio = 0;
         case 'a':
             if (0 == get_double_opt('a', &tmp_a_ratio, optarg, 1)) { // success
-                gb_a_ratio.num = tmp_a_ratio * 10000;
-                gb_a_ratio.den = 10000;
+                parameters.gb_a_ratio.num = tmp_a_ratio * 10000;
+                parameters.gb_a_ratio.den = 10000;
             } else {
                 parse_error++;
             }
             break;
         case 'b':
-            parse_error += get_double_opt('b', &gb_b_blank, optarg, 0);
-            if (gb_b_blank < .2) {
-                av_log(NULL, LOG_INFO, "%s: -b %.2f might be too extreme; try -b .5\n", gb_argv0, gb_b_blank);
+            parse_error += get_double_opt('b', &parameters.gb_b_blank, optarg, 0);
+            if (parameters.gb_b_blank < .2) {
+                av_log(NULL, LOG_INFO, "%s: -b %.2f might be too extreme; try -b .5\n", gb_argv0, parameters.gb_b_blank);
             }
-            if (gb_b_blank > 1) {
+            if (parameters.gb_b_blank > 1) {
                 // turn edge detection off cuz it requires blank detection
-                gb_D_edge = 0;
+                parameters.gb_D_edge = 0;
             }
             break;
         case 'B':
-            parse_error += get_double_opt('B', &gb_B_begin, optarg, 0);
+            parse_error += get_double_opt('B', &parameters.gb_B_begin, optarg, 0);
             break;
         case 'c':
-            parse_error += get_int_opt('c', &gb_c_column, optarg, 1);
+            parse_error += get_int_opt('c', &parameters.gb_c_column, optarg, 1);
             break;
         case 'C':
-            parse_error += get_double_opt('C', &gb_C_cut, optarg, 1);
+            parse_error += get_double_opt('C', &parameters.gb_C_cut, optarg, 1);
             break;
         case 'D':
-            parse_error += get_int_opt('D', &gb_D_edge, optarg, 0);
-            if (gb_D_edge > 0 
-                && (gb_D_edge < 4 || gb_D_edge > 12)) {
-                av_log(NULL, LOG_INFO, "%s: -D%d might be too extreme; try -D4, -D6, or -D8\n", gb_argv0, gb_D_edge);
+            parse_error += get_int_opt('D', &parameters.gb_D_edge, optarg, 0);
+            if (parameters.gb_D_edge > 0
+                && (parameters.gb_D_edge < 4 || parameters.gb_D_edge > 12)) {
+                av_log(NULL, LOG_INFO, "%s: -D%d might be too extreme; try -D4, -D6, or -D8\n", gb_argv0,parameters.gb_D_edge);
             }
             break;
         case 'e':
-            gb_e_ext = optarg;
+            parameters.gb_e_ext = optarg;
             break;
         case 'E':
-            parse_error += get_double_opt('E', &gb_E_end, optarg, 0);
+            parse_error += get_double_opt('E', &parameters.gb_E_end, optarg, 0);
             break;
         case 'f':
-            gb_f_fontname = optarg;
-            if (0 == strcmp(gb_F_ts_fontname, GB_F_FONTNAME)) {
-                gb_F_ts_fontname = gb_f_fontname;
+            parameters.gb_f_fontname = optarg;
+            if (0 == strcmp(parameters.gb_F_ts_fontname, GB_F_FONTNAME)) {
+                parameters.gb_F_ts_fontname = parameters.gb_f_fontname;
             }
             break;
         case 'F':
             parse_error += get_format_opt('F', optarg);
             break;
         case 'g':
-            parse_error += get_int_opt('g', &gb_g_gap, optarg, 0);
+            parse_error += get_int_opt('g', &parameters.gb_g_gap, optarg, 0);
             break;
         case 'h':
-            parse_error += get_int_opt('h', &gb_h_height, optarg, 0);
+            parse_error += get_int_opt('h', &parameters.gb_h_height, optarg, 0);
             break;
         case 'i':
-            gb_i_info = 0;
+            parameters.gb_i_info = 0;
             break;
         case 'I':
-            gb_I_individual = 1;
+            parameters.gb_I_individual = 1;
             break;
         case 'j':
-            parse_error += get_int_opt('j', &gb_j_quality, optarg, 1);
+            parse_error += get_int_opt('j', &parameters.gb_j_quality, optarg, 1);
             break;
         case 'k': // background color
-            parse_error += get_color_opt('k', &gb_k_bcolor, optarg);
+            parse_error += get_color_opt('k', &parameters.gb_k_bcolor, optarg);
             break;
         case 'L':
             parse_error += get_location_opt('L', optarg);
             break;
         case 'n':
-            gb_n_normal = 1; // normal priority
+            parameters.gb_n_normal = 1; // normal priority
             break;
         case 'N':
-            gb_N_suffix = optarg;
+            parameters.gb_N_suffix = optarg;
             break;
         case 'o':
-            gb_o_suffix = optarg;
+            parameters.gb_o_suffix = optarg;
             break;
         case 'O':
-            gb_O_outdir = optarg;
-            rem_trailing_slash(gb_O_outdir);
+            parameters.gb_O_outdir = optarg;
+            rem_trailing_slash(parameters.gb_O_outdir);
             break;
         case 'p':
-            gb_p_pause = 1; // pause before exiting
+            parameters.gb_p_pause = 1; // pause before exiting
             break;
         case 'P':
-            gb_P_dontpause = 1; // dont pause
+            parameters.gb_P_dontpause = 1; // dont pause
             break;
         case 'q':
-            gb_q_quiet = 1; //quiet
+            parameters.gb_q_quiet = 1; //quiet
             break;
         case 'r':
-            parse_error += get_int_opt('r', &gb_r_row, optarg, 0);
+            parse_error += get_int_opt('r', &parameters.gb_r_row, optarg, 0);
             break;
         case 's':
-            parse_error += get_int_opt('s', &gb_s_step, optarg, 0);
+            parse_error += get_int_opt('s', &parameters.gb_s_step, optarg, 0);
             break;
         case 't':
-            gb_t_timestamp = 0; // off
+            parameters.gb_t_timestamp = 0; // off
             break;
         case 'T':
-            gb_T_text = optarg;
+            parameters.gb_T_text = optarg;
             break;
         case 'v':
-            gb_v_verbose = 1; // verbose
+            parameters.gb_v_verbose = 1; // verbose
             break;
         case 'V':
-            gb_V = 1; // DEBUG
+            parameters.gb_V = 1; // DEBUG
             av_log(NULL, LOG_INFO, "%s: -V is only used for debugging\n", gb_argv0);
             break;
         case 'w':
-            parse_error += get_int_opt('w', &gb_w_width, optarg, 0);
+            parse_error += get_int_opt('w', &parameters.gb_w_width, optarg, 0);
             break;
         case 'W':
-            gb_W_overwrite = 0;
+            parameters.gb_W_overwrite = 0;
             break;
         case 'z':
-            gb_z_seek = 1; // always seek mode
+            parameters.gb_z_seek = 1; // always seek mode
             break;
         case 'Z':
-            gb_Z_nonseek = 1; // always non-seek mode
+            parameters.gb_Z_nonseek = 1; // always non-seek mode
             break;
         default:
             parse_error += 1;
@@ -2870,19 +2919,19 @@ int main(int argc, char *argv[])
     }
     
     /* check arguments */
-    if (gb_r_row == 0 && gb_s_step == 0) {
+    if (parameters.gb_r_row == 0 && parameters.gb_s_step == 0) {
         av_log(NULL, AV_LOG_ERROR, "%s: option -r and -s cant be 0 at the same time\n", gb_argv0);
         parse_error += 1;
     }
-    if (gb_b_blank > 1 && gb_D_edge > 0) {
+    if (parameters.gb_b_blank > 1 && parameters.gb_D_edge > 0) {
         av_log(NULL, AV_LOG_ERROR, "%s: -D requires -b arg to be less than 1\n", gb_argv0);
         parse_error += 1;
     }
-    if (gb_z_seek == 1 && gb_Z_nonseek == 1) {
+    if (parameters.gb_z_seek == 1 && parameters.gb_Z_nonseek == 1) {
         av_log(NULL, AV_LOG_ERROR, "%s: option -z and -Z cant be used together\n", gb_argv0);
         parse_error += 1;
     }
-    if (gb_E_end > 0 && gb_C_cut > 0) {
+    if (parameters.gb_E_end > 0 && parameters.gb_C_cut > 0) {
         av_log(NULL, AV_LOG_ERROR, "%s: option -C and -E cant be used together\n", gb_argv0);
         parse_error += 1;
     }
@@ -2893,7 +2942,7 @@ int main(int argc, char *argv[])
     }
 
     /* lower priority */
-    if (1 != gb_n_normal) { // lower priority
+    if (1 != parameters.gb_n_normal) { // lower priority
 #ifdef WIN32
         SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
 #else
@@ -2903,21 +2952,21 @@ int main(int argc, char *argv[])
     }
 
     /* create output directory */
-    if (NULL != gb_O_outdir && !is_dir(gb_O_outdir)) {
+    if (NULL != parameters.gb_O_outdir && !is_dir(parameters.gb_O_outdir)) {
 #ifdef WIN32
-        int ret = mkdir(gb_O_outdir);
+        int ret = mkdir(parameters.gb_O_outdir);
 #else
-        int ret = mkdir(gb_O_outdir, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+        int ret = mkdir(parameters.gb_O_outdir, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 #endif
         if (0 != ret) {
-            av_log(NULL, AV_LOG_ERROR, "\n%s: creating output directory '%s' failed: %s\n", gb_argv0, gb_O_outdir, strerror(errno));
+            av_log(NULL, AV_LOG_ERROR, "\n%s: creating output directory '%s' failed: %s\n", gb_argv0, parameters.gb_O_outdir, strerror(errno));
             goto exit;
         }
     }
 
     /* init */
     av_register_all();          // Register all formats and codecs
-    if (gb_v_verbose > 0) {
+    if (parameters.gb_v_verbose > 0) {
         av_log_set_level(AV_LOG_VERBOSE);
     } else {
         av_log_set_level(LOG_INFO);
@@ -2937,7 +2986,7 @@ int main(int argc, char *argv[])
 
     //av_log(NULL, AV_LOG_VERBOSE, "\n%s: total run time: %.2f s.\n", gb_argv0, difftime(time(NULL), gb_st_start));
 
-    if (1 == gb_p_pause && 0 == gb_P_dontpause) {
+    if (1 == parameters.gb_p_pause && 0 == parameters.gb_P_dontpause) {
         av_log(NULL, AV_LOG_ERROR, "\npausing... press Enter key to exit (see -P option)\n");
         fflush(stdout);
         fflush(stderr);

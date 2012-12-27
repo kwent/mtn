@@ -1,4 +1,5 @@
 TARGET = mtn
+CONFIG += console
 
 INCLUDEPATH += ffmpeg\include
 INCLUDEPATH += gd-2.0.34-win32\include
