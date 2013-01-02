@@ -12,7 +12,8 @@ LIBS += -LC:\Users\kwent\Desktop\mtn\gd-2.0.34-win32\lib -lbgd
 
 QMAKE_LFLAGS += -O3 -s -D_FILE_OFFSET_BITS=64 -mms-bitfields -mtune=i686 -march=i386
 
-HEADERS += fake_tchar.h
+HEADERS += mtn.h\
+fake_tchar.h
 
 SOURCES += mtn.c
 
